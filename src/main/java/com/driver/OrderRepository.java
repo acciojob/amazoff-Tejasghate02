@@ -79,7 +79,7 @@ public class OrderRepository {
 
     }
 
-    public void deletePartnerById(String partnerId) {
+    public void deletePartner(String partnerId) {
         HashSet<String> orders = new HashSet<>();
         if(partnerOrderHashMap.containsKey(partnerId)){
             orders = partnerOrderHashMap.get(partnerId);

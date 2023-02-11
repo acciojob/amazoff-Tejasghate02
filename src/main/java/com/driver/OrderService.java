@@ -1,5 +1,6 @@
 package com.driver;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -9,82 +10,58 @@ import java.util.List;
 
 @Service
 public class OrderService {
-    OrderRepository orderRepository=new OrderRepository();
+    @Autowired
+    OrderRepository orderRepository = new OrderRepository();
 
-    public void addOrder(@RequestBody Order order){
+    public void addOrder(Order order) {
         orderRepository.addOrder(order);
     }
 
-
-    public void addPartner(@PathVariable String partnerId){
-        orderRepository.addPartner(partnerId);
-    }
-
-    public void addOrderPartnerPair(@RequestParam String orderId, @RequestParam String partnerId){
-
-        //This is basically assigning that order to that partnerId
-         orderRepository.addOrderPartnerPair(orderId,partnerId);
-    }
-
-    public Order getOrderById(@PathVariable String orderId){
-
+    public Order getOrderById(String orderId) {
         return orderRepository.getOrderById(orderId);
     }
 
+    public void addPartner(String partnerId) {
+        orderRepository.addPartner(partnerId);
+    }
 
-    public DeliveryPartner getPartnerById(@PathVariable String partnerId){
+    public void addOrderPartnerPair(String orderId, String partnerId) {
+        orderRepository.addOrderPartnerPair(orderId, partnerId);
+    }
 
+    public DeliveryPartner getPartnerById(String partnerId) {
         return orderRepository.getPartnerById(partnerId);
     }
 
-
-    public Integer getOrderCountByPartnerId(@PathVariable String partnerId){
-
-        return orderRepository.getOrderCountByPartnerId(partnerId);
-    }
-
-
-    public List<String> getOrdersByPartnerId(@PathVariable String partnerId){
-
-        return orderRepository.getOrdersByPartnerId(partnerId);
-    }
-
-    public List<String> getAllOrders(){
-
+    public List<String> getAllOrders() {
         return orderRepository.getAllOrders();
     }
 
-    public Integer getCountOfUnassignedOrders(){
+    public Integer getOrderCountByPartnerId(String partnerId) {
+        return orderRepository.getOrderCountByPartnerId(partnerId);
+    }
 
+    public List<String> getOrdersByPartnerId(String partnerId) {
+        return orderRepository.getOrdersByPartnerId(partnerId);
+    }
+
+    public Integer getCountOfUnassignedOrders() {
         return orderRepository.getCountOfUnassignedOrders();
     }
 
-    public Integer getOrdersLeftAfterGivenTimeByPartnerId(@PathVariable String time, @PathVariable String partnerId){
-
-        return orderRepository.getOrdersLeftAfterGivenTimeByPartnerId(time,partnerId);
+    public Integer getOrdersLeftAfterGivenTimeByPartnerId(String time, String partnerId) {
+        return orderRepository.getOrdersLeftAfterGivenTimeByPartnerId(time, partnerId);
     }
 
-    public String getLastDeliveryTimeByPartnerId(@PathVariable String partnerId){
-
+    public String getLastDeliveryTimeByPartnerId(String partnerId) {
         return orderRepository.getLastDeliveryTimeByPartnerId(partnerId);
     }
 
-
-    public void deletePartnerById(@PathVariable String partnerId){
-
-        //Delete the partnerId
-        //And push all his assigned orders to unassigned orders.
-
-        orderRepository.deletePartnerById(partnerId);
+    public void deletePartner(String partnerId) {
+        orderRepository.deletePartner(partnerId);
     }
 
-
-    public String deleteOrderById(@PathVariable String orderId){
-
-        //Delete an order and also
-        // remove it from the assigned order of that partnerId
-
-        return deleteOrderById(orderId);
+    public void deleteOrder(String orderId) {
+        orderRepository.deleteOrder(orderId);
     }
-
 }
